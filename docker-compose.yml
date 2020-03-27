@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  jupyterhub:
+    image: shizidushu/jupyterhub
+    # This is necessary to prevent the singleton hub from using its service number as its hostname
+    hostname: jupyterhub
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - jupyterhub_data:/srv/jupyterhub
+      - /home/bi/simon/jupyterhub-docker/jupyterhub_data/jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
+      - /home/bi/simon/jupyterhub-docker/jupyterhub_data/cull_idle_servers.py:/srv/jupyterhub/cull_idle_servers.py
+    environment:
+      - DOCKER_JUPYTER_CONTAINER=shizidushu/jupyterlab:1.0
+      - DOCKER_NETWORK_NAME=jupyterhub_network
+      - DOCKER_NOTEBOOK_DIR=/home/jovyan
+      - HUB_IP=jupyterhub
+      - HUB_CONNECT_IP=jupyterhub
+    ports:
+      - "8000:8000"
+      - "8080:8080"
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+    networks:
+      - jupyterhub_network
+
+  jupyterlab:
+    image: shizidushu/jupyterlab:1.0
+    command: echo
+    networks:
+      - jupyterhub_network
+
+
+networks:
+  jupyterhub_network:
+    driver: overlay
+    external: true
+
+volumes:
+  jupyterhub_data:
