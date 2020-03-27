@@ -31,7 +31,7 @@ jobs:
 
       - name: Push image jupyterhub
         run: |
-          IMAGE_ID=${{ github.repository }}/jupyterhub
+          IMAGE_ID=${{ secrets.DOCKER_REPOSITORY_NAME }}/jupyterhub
           
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
@@ -56,7 +56,7 @@ jobs:
       
       - name: Push image jupyterlab
         run: |
-          IMAGE_ID=${{ github.repository }}/jupyterlab
+          IMAGE_ID=${{ secrets.DOCKER_REPOSITORY_NAME }}/jupyterlab
           
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
