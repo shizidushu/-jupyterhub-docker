@@ -23,8 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build image
-        run: docker build . --file Dockerfile --tag image jupyterhub/
+      - name: Build image jupyterhub
+        run: docker build . --file jupyterhub/Dockerfile --tag jupyterhub
 
       - name: Log into registry
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin 
@@ -48,8 +48,12 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker tag image $IMAGE_ID:$VERSION
+          docker tag jupyterhub $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+
+      - name: Build image jupyterlab
+        run: docker build . --file jupyterhub/Dockerfile --tag jupyterlab
+      
       - name: Push image jupyterlab
         run: |
           IMAGE_ID=${{ github.repository }}/jupyterlab
@@ -69,5 +73,5 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker tag image $IMAGE_ID:$VERSION
+          docker tag jupyterlab $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
