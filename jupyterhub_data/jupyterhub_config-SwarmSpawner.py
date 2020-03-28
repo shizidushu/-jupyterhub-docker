@@ -23,7 +23,7 @@ c.JupyterHub.admin_access = True
 c.Spawner.default_url = '/lab'
 
 ## Authenticator
-c.JupyterHub.authenticator_class = 'nativeauthenticator.NativeAuthenticator'
+# c.JupyterHub.authenticator_class = 'nativeauthenticator.NativeAuthenticator'
 c.Authenticator.admin_users = {'jovyan'}
 
 
@@ -83,7 +83,7 @@ notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan/work'
 c.SwarmSpawner2.notebook_dir = notebook_dir
 # Mount the real user's Docker volume on the host to the notebook user's
 # notebook directory in the container
-c.SwarmSpawner2.volumes = { '/home/bi/simon/jupyterhub-docker/jupyterhub_data/notebook/{username}': notebook_dir }
+c.SwarmSpawner2.volumes = { '/home/bi/dockerinuse/jupyterhub-docker/jupyterhub_data/notebook{username}': notebook_dir }
 # volume_driver is no longer a keyword argument to create_container()
 # c.DockerSpawner.extra_create_kwargs.update({ 'volume_driver': 'local' })
 # Remove containers once they are stopped
@@ -92,8 +92,8 @@ c.SwarmSpawner2.volumes = { '/home/bi/simon/jupyterhub-docker/jupyterhub_data/no
 c.SwarmSpawner2.debug = True
 
 # Other stuff
-c.Spawner.cpu_limit = 4
-c.Spawner.mem_limit = '10G'
+# c.Spawner.cpu_limit = 4
+# c.Spawner.mem_limit = '10G'
 
 
 ## Services
