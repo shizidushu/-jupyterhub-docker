@@ -15,4 +15,5 @@ RUN wget https://raw.githubusercontent.com/jupyterhub/jupyterhub/0.9.3/examples/
 
 RUN pip install \
     dockerspawner==0.11.1 \
+    oauthenticator==0.11.0 \
     && pip install --upgrade https://github.com/jupyterhub/nativeauthenticator/tarball/master
