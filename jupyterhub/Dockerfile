@@ -1,4 +1,4 @@
-FROM jupyterhub/jupyterhub:0.9.3
+FROM jupyterhub/jupyterhub:1.2
 
 
 # APT packages
