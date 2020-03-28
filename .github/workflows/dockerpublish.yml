@@ -41,7 +41,7 @@ jobs:
           docker push $IMAGE_ID:$VERSION
 
       - name: Build image jupyterlab
-        run: docker build . --file jupyterhub/Dockerfile --tag jupyterlab
+        run: docker build . --file jupyterlab/Dockerfile --tag jupyterlab
       
       - name: Push image jupyterlab
         run: |
