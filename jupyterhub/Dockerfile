@@ -1,4 +1,4 @@
-FROM jupyterhub/jupyterhub:1.2
+FROM jupyterhub/jupyterhub:1.1.0
 
 
 # APT packages
@@ -11,10 +11,8 @@ RUN apt-get update && \
 
 # COPY jupyterhub_config.py .
 
-# RUN wget https://raw.githubusercontent.com/jupyterhub/jupyterhub/1.1.0/examples/cull-idle/cull_idle_servers.py
-# COPY cull_idle_servers.py /srv/jupyterhub/
+RUN wget https://raw.githubusercontent.com/jupyterhub/jupyterhub/1.1.0/examples/cull-idle/cull_idle_servers.py
 
 RUN pip install \
     dockerspawner==0.11.1 \
     && pip install --upgrade https://github.com/jupyterhub/nativeauthenticator/tarball/master
-
