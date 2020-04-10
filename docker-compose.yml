@@ -2,7 +2,7 @@ version: '3'
 
 services:
   jupyterhub:
-    image: shizidushu/jupyterhub:1.1.0
+    image: shizidushu/jupyterhub:1.0.0
     # This is necessary to prevent the singleton hub from using its service number as its hostname
     container_name: jupyterhub
     volumes:
@@ -10,7 +10,7 @@ services:
       # - jupyterhub_data:/srv/jupyterhub
       - $PWD/jupyterhub_data/jupyterhub_config-DockerSpawner.py:/srv/jupyterhub/jupyterhub_config.py
     environment:
-      - DOCKER_JUPYTER_CONTAINER=shizidushu/jupyterlab:1.1.0
+      - DOCKER_JUPYTER_CONTAINER=shizidushu/jupyterlab:1.0.0
       - DOCKER_NETWORK_NAME=jupyterhub_jupyterhub_default
       - DOCKER_NOTEBOOK_DIR=/home/jovyan
       - HUB_IP=jupyterhub
@@ -19,7 +19,7 @@ services:
       - "8000:8000"
 
   jupyterlab:
-    image: shizidushu/jupyterlab:1.1.0
+    image: shizidushu/jupyterlab:1.0.0
     container_name: jupyterlab-throaway
     command: echo
 

@@ -13,6 +13,8 @@ import os
 
 c = get_config()
 
+from jupyter_client.localinterfaces import public_ips
+
 ## Generic
 c.JupyterHub.admin_access = True
 # c.Spawner.default_url = '/lab'
@@ -29,26 +31,22 @@ c.LocalAuthenticator.create_system_users = True
 c.JupyterHub.spawner_class = c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
 c.DockerSpawner.image = os.environ['DOCKER_JUPYTER_CONTAINER']
 # Connect containers to this Docker network
-network_name = 'bridge' #  'jupyterhub-network'    #  os.environ['DOCKER_NETWORK_NAME']
-# c.DockerSpawner.use_internal_ip = True
+network_name = os.environ['DOCKER_NETWORK_NAME']
 c.DockerSpawner.network_name = network_name
-c.JupyterHub.hub_ip = os.environ['HUB_IP']
 # Pass the network name as argument to spawned containers
 c.DockerSpawner.extra_host_config = { 'network_mode': network_name }
-# Explicitly set notebook directory because we'll be mounting a host volume to
-# it.  Most jupyter/docker-stacks *-notebook images run the Notebook server as
-# user `jovyan`, and set the notebook directory to `/home/jovyan/work`.
-# We follow the same convention.
+
+# c.DockerSpawner.use_internal_hostname = True
+c.JupyterHub.hub_ip = public_ips()[0]
+# c.DockerSpawner.hub_connect_ip = os.environ['HUB_IP']
+
+# c.DockerSpawner.remove = True
+
+
+
 notebook_dir = '/home/jovyan/work' # os.environ.get('DOCKER_NOTEBOOK_DIR') or
 c.DockerSpawner.notebook_dir = notebook_dir
-# Mount the real user's Docker volume on the host to the notebook user's
-# notebook directory in the container
 c.DockerSpawner.volumes = { '/home/bi/dockerinuse/jupyterhub-docker/jupyterhub_data/notebook/{username}': notebook_dir }
-# volume_driver is no longer a keyword argument to create_container()
-# c.DockerSpawner.extra_create_kwargs.update({ 'volume_driver': 'local' })
-# Remove containers once they are stopped
-# c.DockerSpawner.remove_containers = True
-# For debugging arguments passed to spawned containers
 c.DockerSpawner.debug = True
 
 ## Services
